@@ -3,18 +3,27 @@
 // ========================================================
 
 const sayHello = () => {
-  return "Hello"
+  return 'Hello'
 }
 
 const area = (w, h) => {
+  if ((w < 0 | h < 0) | (typeof w !== 'number') | (typeof h !== 'number')) {
+    return null
+  }
   return w * h
 }
 
 const perimeter = (w, h) => {
+  if ((w < 0 | h < 0) | (typeof w !== 'number') | (typeof h !== 'number')) {
+    return null
+  }
   return w + w + h + h
 }
 
 const circleArea = r => {
+  if (r < 0 | typeof r !== 'number') {
+    return null
+  }
   return Math.PI * r * r
 }
 
