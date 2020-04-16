@@ -45,23 +45,39 @@ const createItem = (name, price) => {
 }
 
 const getShoppingCart = () => {
-  // should return the current state of shopping cart
+  return shoppingCart
 }
 
 const addItemToCart = (item) => {
-  // should add item to shopping cart
+  for (let i = 0; i < shoppingCart.length; i++) {
+    if (shoppingCart[i] === item) {
+      shoppingCart[i].quantity++
+      return
+    }
+  }
+  shoppingCart.push(item)
 }
 
 const getNumItemsInCart = () => {
-  // should return the total quantity of items in cart
+  let numItems = 0
+  for (let i = 0; i < shoppingCart.length; i++) {
+    numItems += shoppingCart[i].quantity
+  }
+  return numItems
 }
 
 const removeItemFromCart = (item) => {
-  // should remove item from shopping cart
+  for (let i = 0; i < shoppingCart.length; i++) {
+    if (shoppingCart[i] === item) {
+      shoppingCart[i].quantity--
+      if (shoppingCart[i].quantity === 0) {
+        shoppingCart.splice(i, 1)
+      }
+      return
+    }
+  }
 }
 
-module.exports = { 
-  sayHello, area, perimeter, circleArea,
-  clearCart, createItem, getShoppingCart, addItemToCart,
-  getNumItemsInCart, removeItemFromCart
+module.exports = {
+  sayHello, area, perimeter, circleArea, clearCart, createItem, getShoppingCart, addItemToCart, getNumItemsInCart, removeItemFromCart
 }

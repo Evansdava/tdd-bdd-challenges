@@ -131,22 +131,127 @@ it('Should create a new (object) Item with name and price', function () {
 })
 
 it('Should return an array containing all items in cart', function () {
+  utils.clearCart()
+  const cart = utils.getShoppingCart()
   const apple = utils.createItem('apple', 0.99)
   const banana = utils.createItem('banana', 0.20)
   const melon = utils.createItem('melon', 1.29)
-  const cart = [apple, banana, melon]
 
-  const items = utils.getItems(cart)
+  const items = [apple, banana, melon]
 
-  expect(items).to.be.a('array')
-  expect(items).to.equal(cart)
+  expect(cart).to.be.an('array')
+  expect(cart).to.have.lengthOf(0)
+
+  for (let i = 0; i < items.length; i++) {
+    utils.addItemToCart(items[i])
+  }
+
+  expect(cart).to.be.an('array')
+  expect(cart).to.deep.equal(items)
+  expect(cart).to.have.lengthOf(3)
+  utils.clearCart()
 })
 
-it('Should add a new item to the shopping cart')
+it('Should add a new item to the shopping cart', function () {
+  utils.clearCart()
+  const cart = utils.getShoppingCart()
+  const apple = utils.createItem('apple', 0.99)
+  const banana = utils.createItem('banana', 0.20)
+  const melon = utils.createItem('melon', 1.29)
 
-it('Should return the number of items in the cart')
+  expect(cart).to.be.an('array')
+  expect(cart).to.have.lengthOf(0)
 
-it('Should remove items from cart')
+  utils.addItemToCart(apple)
+
+  expect(cart).to.have.lengthOf(1)
+  expect(cart).to.include(apple)
+
+  utils.addItemToCart(banana)
+
+  expect(cart).to.have.lengthOf(2)
+  expect(cart).to.include.all.members([apple, banana])
+
+  utils.addItemToCart(melon)
+
+  expect(cart).to.have.lengthOf(3)
+  expect(cart).to.include.all.members([apple, banana, melon])
+
+  utils.addItemToCart(apple)
+  expect(cart).to.have.lengthOf(3)
+  expect(cart).to.include.all.members([apple, banana, melon])
+  expect(cart[0].quantity).to.equal(2)
+
+  utils.clearCart()
+})
+
+it('Should return the number of items in the cart', function () {
+  utils.clearCart()
+  const cart = utils.getShoppingCart()
+  const apple = utils.createItem('apple', 0.99)
+  const banana = utils.createItem('banana', 0.20)
+  const melon = utils.createItem('melon', 1.29)
+
+  let numItems = utils.getNumItemsInCart()
+
+  expect(numItems).to.be.a('number').that.equals(0)
+
+  const items = [apple, banana, melon, apple]
+
+  for (let i = 0; i < items.length; i++) {
+    numItems = utils.getNumItemsInCart()
+    expect(numItems).to.be.a('number').that.equals(i)
+    utils.addItemToCart(items[i])
+  }
+
+  numItems = utils.getNumItemsInCart()
+  expect(numItems).to.equal(4)
+  expect(cart).to.have.lengthOf(3)
+
+  utils.clearCart()
+})
+
+it('Should remove items from cart', function () {
+  utils.clearCart()
+  const cart = utils.getShoppingCart()
+  const apple = utils.createItem('apple', 0.99)
+  const banana = utils.createItem('banana', 0.20)
+  const melon = utils.createItem('melon', 1.29)
+
+  const items = [apple, banana, melon, apple]
+
+  for (let i = 0; i < items.length; i++) {
+    utils.addItemToCart(items[i])
+  }
+
+  expect(cart).to.be.an('array').with.lengthOf(3)
+  expect(cart).to.include.all.members([apple, banana, melon])
+
+  utils.removeItemFromCart(apple)
+
+  expect(cart).to.have.lengthOf(3)
+  expect(cart[0].quantity).to.equal(1)
+  expect(cart).to.include.all.members([apple, banana, melon])
+
+  utils.removeItemFromCart(banana)
+
+  expect(cart).to.have.lengthOf(2)
+  expect(cart).to.not.include(banana)
+  expect(cart).to.include.all.members([apple, melon])
+
+  utils.removeItemFromCart(melon)
+
+  expect(cart).to.have.lengthOf(1)
+  expect(cart).to.not.include(melon)
+  expect(cart).to.include(apple)
+
+  utils.removeItemFromCart(apple)
+
+  expect(cart).to.have.lengthOf(0)
+  expect(cart).to.not.include(apple)
+
+  utils.clearCart()
+})
 
 // ========================================================
 // Stretch Challenges
